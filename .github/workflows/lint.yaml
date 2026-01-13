@@ -17,6 +17,7 @@ jobs:
       NODE_ENV: development
     steps:
       - uses: actions/checkout@v4
+      - run: rm -rf node_modules package-lock.json
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
