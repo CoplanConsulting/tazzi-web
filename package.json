@@ -4,14 +4,23 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
+    "build:analyze": "nuxt build --analyze",
+    "cleanup": "lsof -ti:3000,4983 | xargs kill -9 2>/dev/null || true",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
   },
   "dependencies": {
+    "@nuxt/eslint": "^1.12.1",
+    "eslint-plugin-format": "^1.2.0",
     "nuxt": "^4.2.2",
     "vue": "^3.5.26",
     "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^6.7.3",
+    "eslint": "^9.39.2",
+    "husky": "^9.1.7"
   }
 }

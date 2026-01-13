@@ -1,6 +1,6 @@
-# Nuxt Minimal Starter
+# Tazzi
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+TAZZI provides comprehensive tour management solutions
 
 ## Setup
 
