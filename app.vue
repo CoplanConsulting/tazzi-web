@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 </script>
 
 <template>
-  <div>
+  <div class="bg-background text-foreground">
     <h1 class="text-4xl font-bold underline">
       Hello world!
     </h1>

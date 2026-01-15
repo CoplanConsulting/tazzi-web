@@ -38,6 +38,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^6.7.3",
     "@iconify-json/tabler": "^1.2.26",
+    "@nuxtjs/color-mode": "^4.0.0",
     "eslint": "^9.39.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
