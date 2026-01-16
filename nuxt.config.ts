@@ -5,6 +5,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/eslint", "shadcn-nuxt", "@nuxt/icon", "@nuxtjs/color-mode"],
   css: ["./assets/css/main.css"],
+  postcss: {
+    plugins: {
+      "@tailwindcss/postcss": {},
+      "autoprefixer": {},
+    },
+  },
   eslint: {
     config: {
       standalone: false,

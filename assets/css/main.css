@@ -1,7 +1,132 @@
+/**
+ * Tour Management Pro - Design System
+ * Tailwind CSS 4.x (CSS-First Configuration)
+ *
+ * Structure:
+ * 1. @theme - Design tokens (spacing, colors, typography, shadows)
+ * 2. :root - Light mode color values
+ * 3. .dark - Dark mode overrides
+ * 4. @layer base - Global element styles
+ * 5. @layer utilities - Custom utility classes
+ * 6. Component transitions - Vue-specific animations
+ */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Custom dark mode variant for Nuxt Color Mode */
 @custom-variant dark (&:is(.dark *));
+
+/* ============================================================================
+   DESIGN TOKENS - Single Source of Truth
+   ============================================================================ */
+@theme {
+  /* --------------------------------------------------------------------------
+     TYPOGRAPHY SCALE (System font stack + size scale)
+     -------------------------------------------------------------------------- */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.5rem; /* 40px */
+
+  --font-size-heading-3: var(--font-size-xl); /* 20px - subheadings */
+  --font-size-heading-2: var(--font-size-3xl); /* 28px - sections */
+  --font-size-heading-1: var(--font-size-4xl); /* 40px - heroes */
+
+  /* --------------------------------------------------------------------------
+     SPACING SCALE (8px grid system)
+     -------------------------------------------------------------------------- */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-16: 4rem; /* 64px */
+
+  --spacing-section: var(--spacing-12); /* Major vertical rhythm */
+
+  /* --------------------------------------------------------------------------
+     BORDER RADIUS SCALE
+     -------------------------------------------------------------------------- */
+  --radius: 0.625rem; /* 10px - base radius */
+  --radius-sm: 0.25rem;
+  --radius-md: calc(var(--radius) - 2px); /* 8px */
+  --radius-lg: var(--radius); /* 10px */
+  --radius-xl: calc(var(--radius) + 4px); /* 14px */
+
+  /* --------------------------------------------------------------------------
+     SHADOWS (From shadcn-vue defaults)
+     -------------------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* --------------------------------------------------------------------------
+     TRANSITIONS
+     -------------------------------------------------------------------------- */
+  --transition-duration-fast: 150ms;
+  --transition-duration-base: 200ms;
+  --transition-duration-slow: 300ms;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --------------------------------------------------------------------------
+     LAYOUT (Simple dimensions/gutters)
+     -------------------------------------------------------------------------- */
+  --layout-gutter: var(--spacing-4); /* 16px - site-wide spacing */
+  --layout-content-width: 80%; /* Flexible content */
+  --layout-max-width: 90rem; /* 1440px - cap for wide screens */
+  --layout-featured-width: 100%; /* Full-bleed for heroes */
+  --layout-grid-columns: 12; /* Implied for future grids */
+  --sidebar-width: 17.5rem; /* 256px */
+  --sidebar-width-icon: 3rem; /* 48px - collapsed */
+
+  /* --------------------------------------------------------------------------
+     PALETTE Warm neutrals, high contrast semantics
+     -------------------------------------------------------------------------- */
+  --color-background: oklch(0.98 0.002 240); /* Off-white light */
+  --color-text-primary: oklch(0.15 0.02 260); /* Near-black */
+  --color-text-secondary: oklch(0.45 0.01 240); /* Mid-gray muted */
+  --color-accent: oklch(0.55 0.22 250); /* Blue primary */
+  --color-neutral-light: oklch(0.95 0.005 240); /* Light gray */
+  --color-neutral-dark: oklch(0.25 0.01 240); /* Dark gray */
+  --color-border: oklch(0.85 0.01 240); /* Subtle divider */
+  --color-destructive: oklch(0.577 0.245 27.325); /* Red */
+
+  /* Semantic aliases (extend as needed) */
+  --color-card: oklch(1 0 0); /* Pure white for elevated surfaces */
+  --color-card-foreground: var(--color-text-primary);
+  --color-popover: oklch(1 0 0); /* White for popovers/dropdowns */
+  --color-popover-foreground: oklch(0.129 0.042 264.695); /* Dark blue-gray */
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: oklch(0.98 0.002 240); /* White on accent */
+  --color-muted: var(--color-neutral-light);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-ring: var(--color-accent); /* Focus */
+
+  /* Sidebar semantics */
+  --color-sidebar: var(--color-neutral-light);
+  --color-sidebar-foreground: var(--color-text-primary);
+  --color-sidebar-primary: var(--color-accent);
+  --color-sidebar-primary-foreground: oklch(0.98 0.002 240);
+  --color-sidebar-accent: var(--color-neutral-light);
+  --color-sidebar-accent-foreground: var(--color-text-primary);
+  --color-sidebar-border: var(--color-border);
+  --color-sidebar-ring: var(--color-ring);
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

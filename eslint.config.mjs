@@ -19,9 +19,7 @@ export default withNuxt(antfu({
     "tests/**/*",
     "docs/**/*",
     "**/drizzle/**",
-    "architecture.md",
-    "server/api/_routing-guide.md",
-    "readme.md",
+    "*.md",
   ],
 }, {
   rules: {
