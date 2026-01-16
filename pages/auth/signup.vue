@@ -27,113 +27,108 @@ function handleSignUp() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[var(--background)] flex flex-col items-center justify-center p-[var(--spacing-6)] gap-[var(--spacing-6)]">
-    <Card class="w-full max-w-2xl bg-[var(--card)] shadow-card">
-      <CardHeader class="pb-[var(--spacing-8)]">
-        <CardTitle class="text-[var(--font-size-2xl)] font-bold text-[var(--foreground)]">
+  <div class="auth-page auth-page--signup">
+    <Card class="auth-page__card">
+      <CardHeader class="auth-page__header">
+        <CardTitle class="auth-page__title">
           Create an account
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="px-[var(--spacing-8)] pb-[var(--spacing-8)]">
-        <form class="grid gap-[var(--spacing-6)]" @submit.prevent="handleSignUp">
-          <!-- Name Fields Row -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-[var(--spacing-4)]">
-            <div class="grid gap-[var(--spacing-2)]">
-              <Label for="firstName" class="text-[var(--font-size-sm)] font-medium text-[var(--foreground)]">
+      <CardContent class="auth-page__content">
+        <form class="auth-form" @submit.prevent="handleSignUp">
+          <div class="auth-form__row">
+            <div class="auth-form__field">
+              <Label for="firstName" class="auth-form__label">
                 First Name
               </Label>
               <Input
                 id="firstName"
                 v-model="firstName"
                 type="text"
-                class="h-11"
+                class="auth-form__input"
               />
             </div>
 
-            <div class="grid gap-[var(--spacing-2)]">
-              <Label for="lastName" class="text-[var(--font-size-sm)] font-medium text-[var(--foreground)]">
+            <div class="auth-form__field">
+              <Label for="lastName" class="auth-form__label">
                 Last Name
               </Label>
               <Input
                 id="lastName"
                 v-model="lastName"
                 type="text"
-                class="h-11"
+                class="auth-form__input"
               />
             </div>
           </div>
 
-          <!-- Email and Company Row -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-[var(--spacing-4)]">
-            <div class="grid gap-[var(--spacing-2)]">
-              <Label for="email" class="text-[var(--font-size-sm)] font-medium text-[var(--foreground)]">
+          <div class="auth-form__row">
+            <div class="auth-form__field">
+              <Label for="email" class="auth-form__label">
                 Email Address
               </Label>
               <Input
                 id="email"
                 v-model="email"
                 type="email"
-                class="h-11"
+                class="auth-form__input"
               />
             </div>
 
-            <div class="grid gap-[var(--spacing-4)]">
-              <Label for="company" class="text-[var(--font-size-sm)] font-medium text-[var(--foreground)]">
+            <div class="auth-form__field">
+              <Label for="company" class="auth-form__label">
                 Company
               </Label>
               <Input
                 id="company"
                 v-model="company"
                 type="text"
-                class="h-11"
+                class="auth-form__input"
               />
             </div>
           </div>
 
-          <!-- Password Fields Row -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-[var(--spacing-4)]">
-            <div class="grid gap-[var(--spacing-2)]">
-              <Label for="password" class="text-[var(--font-size-sm)] font-medium text-[var(--foreground)]">
+          <div class="auth-form__row">
+            <div class="auth-form__field">
+              <Label for="password" class="auth-form__label">
                 Password
               </Label>
               <Input
                 id="password"
                 v-model="password"
                 type="password"
-                class="h-11"
+                class="auth-form__input"
               />
             </div>
 
-            <div class="grid gap-[var(--spacing-2)]">
-              <Label for="confirmPassword" class="text-[var(--font-size-sm)] font-medium text-[var(--foreground)]">
+            <div class="auth-form__field">
+              <Label for="confirmPassword" class="auth-form__label">
                 Confirm Password
               </Label>
               <Input
                 id="confirmPassword"
                 v-model="confirmPassword"
                 type="password"
-                class="h-11"
+                class="auth-form__input"
               />
             </div>
           </div>
 
-          <!-- Sign Up Button -->
-          <div class="flex justify-center mt-[var(--spacing-2)]">
+          <div class="auth-form__actions">
             <Button
               type="submit"
-              class="bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-[var(--primary)]/90 h-11 px-[var(--spacing-16)] transition-colors duration-[var(--transition-duration-base)]"
+              class="auth-form__button"
             >
               Sign Up
             </Button>
           </div>
 
-          <!-- Login Link -->
-          <div class="text-center text-[var(--font-size-sm)] text-[var(--muted-foreground)]">
+          <div class="auth-page__link-section">
             Already have an account?
             <NuxtLink
               to="/auth/login"
-              class="text-[var(--foreground)] font-medium hover:underline"
+              class="auth-page__link"
             >
               Login
             </NuxtLink>
@@ -142,12 +137,11 @@ function handleSignUp() {
       </CardContent>
     </Card>
 
-    <!-- Terms Footer - OUTSIDE card -->
-    <p class="text-[var(--font-size-xs)] text-[var(--muted-foreground)] text-center max-w-2xl">
+    <p class="auth-page__terms">
       By clicking sign up, you agree to our
-      <a href="#" class="underline hover:text-[var(--foreground)] transition-colors duration-[var(--transition-duration-fast)]">Terms of Service</a>
+      <a href="#" class="auth-page__terms-link">Terms of Service</a>
       and
-      <a href="#" class="underline hover:text-[var(--foreground)] transition-colors duration-[var(--transition-duration-fast)]">Privacy Policy</a>.
+      <a href="#" class="auth-page__terms-link">Privacy Policy</a>.
     </p>
   </div>
 </template>

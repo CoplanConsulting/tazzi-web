@@ -19,22 +19,21 @@ function handleLogin() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[var(--background)] flex flex-col items-center justify-center p-[var(--spacing-6)] gap-[var(--spacing-6)]">
-    <Card class="w-full max-w-md py-[var(--spacing-12)] bg-[var(--card)] shadow-card">
-      <CardHeader class="pb-[var(--spacing-8)]">
-        <CardTitle class="text-2xl font-bold text-[var(--foreground)] mb-[var(--spacing-2)]">
+  <div class="auth-page">
+    <Card class="auth-page__card">
+      <CardHeader class="auth-page__header">
+        <CardTitle class="auth-page__title">
           Welcome back
         </CardTitle>
-        <CardDescription class="text-[var(--muted-foreground)]">
+        <CardDescription class="auth-page__description">
           Login to your TMPro account
         </CardDescription>
       </CardHeader>
 
-      <CardContent class="px-[var(--spacing-8)] pb-[var(--spacing-8)]">
-        <form class="grid gap-[var(--spacing-6)]" @submit.prevent="handleLogin">
-          <!-- Email Field -->
-          <div class="grid gap-[var(--spacing-2)]">
-            <Label for="email" class="text-sm font-medium text-[var(--foreground)]">
+      <CardContent class="auth-page__content">
+        <form class="auth-form" @submit.prevent="handleLogin">
+          <div class="auth-form__field">
+            <Label for="email" class="auth-form__label">
               Email
             </Label>
             <Input
@@ -42,19 +41,18 @@ function handleLogin() {
               v-model="email"
               type="email"
               placeholder="name@example.com"
-              class="h-11"
+              class="auth-form__input"
             />
           </div>
 
-          <!-- Password Field -->
-          <div class="grid gap-[var(--spacing-2)]">
-            <div class="flex items-center justify-between">
-              <Label for="password" class="text-sm font-medium text-[var(--foreground)]">
+          <div class="auth-form__field">
+            <div class="auth-form__field-header">
+              <Label for="password" class="auth-form__label">
                 Password
               </Label>
               <NuxtLink
                 to="/auth/forgot-password"
-                class="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-[var(--transition-duration-fast)]"
+                class="auth-form__link"
               >
                 Forgot your password?
               </NuxtLink>
@@ -64,24 +62,22 @@ function handleLogin() {
               v-model="password"
               type="password"
               placeholder="••••••••"
-              class="h-11"
+              class="auth-form__input"
             />
           </div>
 
-          <!-- Login Button -->
           <Button
             type="submit"
-            class="w-full rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 h-11 mt-[var(--spacing-2)] transition-opacity duration-[var(--transition-duration-base)]"
+            class="auth-form__button auth-form__button--rounded"
           >
             Login
           </Button>
 
-          <!-- Sign Up Link -->
-          <div class="text-center text-sm text-[var(--muted-foreground)]">
+          <div class="auth-page__link-section">
             Don't have an account?
             <NuxtLink
               to="/auth/signup"
-              class="text-[var(--foreground)] font-medium hover:underline"
+              class="auth-page__link"
             >
               Sign Up
             </NuxtLink>
@@ -90,12 +86,11 @@ function handleLogin() {
       </CardContent>
     </Card>
 
-    <!-- Terms Footer - OUTSIDE card -->
-    <p class="text-xs text-[var(--muted-foreground)] text-center max-w-md">
+    <p class="auth-page__terms">
       By clicking login, you agree to our
-      <a href="#" class="underline hover:text-[var(--foreground)] transition-colors duration-[var(--transition-duration-fast)]">Terms of Service</a>
+      <a href="#" class="auth-page__terms-link">Terms of Service</a>
       and
-      <a href="#" class="underline hover:text-[var(--foreground)] transition-colors duration-[var(--transition-duration-fast)]">Privacy Policy</a>.
+      <a href="#" class="auth-page__terms-link">Privacy Policy</a>.
     </p>
   </div>
 </template>

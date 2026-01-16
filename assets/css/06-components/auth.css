@@ -1,0 +1,145 @@
+:root {
+  --auth-card-width-sm: 40ch;
+  --auth-card-width-md: 60ch;
+}
+
+.auth-page {
+  @apply flex flex-col items-center justify-center min-h-screen p-6 gap-6;
+  background-color: var(--background);
+}
+
+/* .auth-page--signup modifier - styles defined contextually below */
+
+/* Card */
+.auth-page__card {
+  @apply w-full shadow-md;
+  max-width: var(--auth-card-width-sm);
+  background-color: var(--card);
+}
+
+.auth-page--signup .auth-page__card {
+  max-width: var(--auth-card-width-md);
+}
+
+/* Header */
+.auth-page__header {
+  @apply pb-8;
+}
+
+/* Title */
+.auth-page__title {
+  @apply text-2xl font-bold mb-2;
+  color: var(--foreground);
+}
+
+/* Description */
+.auth-page__description {
+  color: var(--muted-foreground);
+}
+
+/* Content */
+.auth-page__content {
+  @apply px-8 pb-8;
+}
+
+/* Form */
+.auth-form {
+  @apply grid gap-6;
+}
+
+/* Form Row (for signup grids) */
+.auth-form__row {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+/* Field Wrapper */
+.auth-form__field {
+  @apply grid gap-2;
+}
+
+/* Field Header (for password with link) */
+.auth-form__field-header {
+  @apply flex items-center justify-between;
+}
+
+/* Label */
+.auth-form__label {
+  @apply text-sm font-medium;
+  color: var(--foreground);
+}
+
+/* Input */
+.auth-form__input {
+  @apply h-11 p-3 rounded-md transition-colors duration-200;
+  background-color: var(--input);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+.auth-form__input:focus {
+  outline-color: var(--ring);
+  border-color: var(--primary);
+}
+
+/* Button */
+.auth-form__button {
+  @apply w-full h-11 mt-2 rounded-md font-medium transition-opacity duration-200;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.auth-form__button:hover {
+  @apply opacity-90;
+}
+
+.auth-form__button--rounded {
+  @apply rounded-full;
+}
+
+/* Actions Wrapper (for centered button in signup) */
+.auth-form__actions {
+  @apply flex justify-center mt-2;
+}
+
+.auth-form__actions .auth-form__button {
+  @apply w-auto px-16 mt-0;
+}
+
+/* Link Section */
+.auth-page__link-section {
+  @apply text-center text-sm;
+  color: var(--muted-foreground);
+}
+
+/* Generic Link */
+.auth-page__link,
+.auth-form__link {
+  @apply text-sm transition-colors duration-150;
+  color: var(--muted-foreground);
+}
+
+.auth-page__link:hover,
+.auth-form__link:hover {
+  @apply underline;
+  color: var(--foreground);
+}
+
+/* Terms Footer */
+.auth-page__terms {
+  @apply text-xs text-center;
+  color: var(--muted-foreground);
+  max-width: var(--auth-card-width-sm);
+}
+
+.auth-page--signup .auth-page__terms {
+  max-width: var(--auth-card-width-md);
+}
+
+/* Terms Link */
+.auth-page__terms-link {
+  @apply underline transition-colors duration-150;
+}
+
+.auth-page__terms-link:hover {
+  color: var(--foreground);
+}
