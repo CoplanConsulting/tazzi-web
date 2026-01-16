@@ -1,0 +1,14 @@
+/* ===========================================
+    01-Tokens
+=========================================== */
+@layer base {
+    :root {
+
+        /* Selection & focus */
+        --selection-bg-color: var(--accent);
+        --selection-text-color: var(--accent-foreground);
+        --focus-outline-color: var(--accent);
+        --focus-shadow-color: color-mix(in srgb, var(--accent) 30%, transparent);
+
+    }
+}
