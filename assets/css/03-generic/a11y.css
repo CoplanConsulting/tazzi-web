@@ -2,32 +2,32 @@
     Accessibility
 =========================================== */
 :root {
-    --focus-outline: 2px solid var(--ring);
-    --focus-shadow: 0 0 0 3px oklch(from var(--ring) l c h / 27%);
+  --focus-outline: 2px solid var(--ring);
+  --focus-shadow: 0 0 0 3px oklch(from var(--ring) l c h / 27%);
 }
 
 /* Actual applied styles */
 :focus-visible {
-    outline: var(--focus-outline);
-    outline-offset: 2px;
-    box-shadow: var(--focus-shadow);
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+  box-shadow: var(--focus-shadow);
 }
 
 /* Optional: high-contrast mode fallback */
 @media (prefers-contrast: high) {
-    :focus-visible {
-        outline: 3px solid currentColor;
-        outline-offset: 3px;
-    }
+  :focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

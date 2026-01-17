@@ -5,19 +5,19 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    min-height: 100vh;
-    text-rendering: optimizeSpeed;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: var(--background);
-    color: var(--foreground);
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 ::selection {
-    background: var(--selection-bg-color, var(--primary));
-    color: var(--selection-text-color);
+  background: var(--selection-bg-color, var(--primary));
+  color: var(--selection-text-color);
 }
