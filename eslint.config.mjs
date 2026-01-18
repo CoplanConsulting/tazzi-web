@@ -20,6 +20,7 @@ export default withNuxt(antfu({
     "docs/**/*",
     "**/drizzle/**",
     "*.md",
+    ".claude/**/*",
   ],
 }, {
   rules: {
