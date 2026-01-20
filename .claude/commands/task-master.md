@@ -44,9 +44,15 @@ Present the task list and ask: **"Ready to proceed with these tasks? Any changes
 
 Wait for approval before proceeding.
 
+After PRD is approved:
+
+1. Break into tasks following the existing rules. 
+2. Save the task list as: `.taskmaster/task-{slug}.json`  save PRD as `.taskmaster/prds/{slug}.json`
+3. Present the task list + filenames and ask: **"Tasks saved as task-{slug}.json (PRD: prd-{slug}.md). Ready to proceed with these tasks? Any changes?"**
+
 ### Step 4: Output
 
-Once approved, save the final task list to `.taskmaster/tasks.json` (create the directory if needed).
+Once approved, save the final task list to `.taskmaster/tasks/task-{slug}.json` and prd tp ``.taskmaster/prds/{slug}.json`` (create the directory if needed).
 
 Confirm: **"Tasks saved. Ready to implement? Start with task 1?"**
 

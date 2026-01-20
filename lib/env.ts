@@ -6,6 +6,7 @@ const EnvSchema = z.object({
   NODE_ENV: z.string(),
   SUPABASE_URL: z.string().url(),
   SUPABASE_KEY: z.string(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string(),
   SUPABASE_DB_URL: z.string(),
 });
 

@@ -21,6 +21,8 @@ export default withNuxt(antfu({
     "**/drizzle/**",
     "*.md",
     ".claude/**/*",
+    ".taskmaster/**",
+    "**/migrations/meta/**",
   ],
 }, {
   rules: {

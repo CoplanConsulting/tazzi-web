@@ -1,0 +1,298 @@
+{
+  "feature": "Signup with Auto Org Creation",
+  "prdPath": "taskmaster/prds/signup-with-org-creation.md",
+  "totalTasks": 9,
+  "estimatedComplexity": "high",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Add environment variables and install Supabase SDK",
+      "description": "Configure SUPABASE_SERVICE_ROLE_KEY and install @supabase/supabase-js package",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Complexity: 2/10. Add SUPABASE_SERVICE_ROLE_KEY to lib/env.ts schema and .env file. Install @supabase/supabase-js. Get service role key from Supabase dashboard > Settings > API.",
+      "testStrategy": "Run `npm run dev` and verify no env validation errors. Check that EnvSchema includes new key.",
+      "subtasks": []
+    },
+    {
+      "id": 2,
+      "title": "Create Drizzle schema for auth tables",
+      "description": "Define orgs, roles, capabilities, role_capabilities, and org_users tables in Drizzle",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Complexity: 5/10. Create schema files in lib/db/schema/. Define all 5 tables with proper types, constraints, indexes, and relations. Export from index.ts. Follow PRD schema specifications exactly.",
+      "testStrategy": "Run `npx drizzle-kit generate` and verify migration SQL matches expected schema. Check for proper FK references and indexes.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create orgs table schema",
+          "description": "Define orgs table with id, name, created_at, updated_at columns",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "high",
+          "details": "Complexity: 1/10. Create lib/db/schema/orgs.ts with pgTable definition. Use uuid for PK with gen_random_uuid(), varchar(255) for name, timestamps with defaults.",
+          "testStrategy": "TypeScript compiles without errors. Schema exports correctly from index.ts.",
+          "subtasks": []
+        },
+        {
+          "id": 2,
+          "title": "Create roles table schema",
+          "description": "Define roles table with id, name, description columns",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "high",
+          "details": "Complexity: 1/10. Create lib/db/schema/roles.ts. Use uuid PK, varchar(50) unique for name, text for description.",
+          "testStrategy": "TypeScript compiles. Unique constraint on name defined.",
+          "subtasks": []
+        },
+        {
+          "id": 3,
+          "title": "Create capabilities table schema",
+          "description": "Define capabilities table with id, name, description columns",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "high",
+          "details": "Complexity: 1/10. Create lib/db/schema/capabilities.ts. Use uuid PK, varchar(100) unique for name, text for description.",
+          "testStrategy": "TypeScript compiles. Unique constraint on name defined.",
+          "subtasks": []
+        },
+        {
+          "id": 4,
+          "title": "Create role_capabilities junction table",
+          "description": "Define role_capabilities table linking roles to capabilities",
+          "status": "pending",
+          "dependencies": [2, 3],
+          "priority": "high",
+          "details": "Complexity: 2/10. Create lib/db/schema/role-capabilities.ts. Composite PK on (role_id, capability_id). FK references with ON DELETE CASCADE.",
+          "testStrategy": "TypeScript compiles. FKs reference correct tables. Composite PK defined.",
+          "subtasks": []
+        },
+        {
+          "id": 5,
+          "title": "Create org_users table with indexes",
+          "description": "Define org_users table linking users to orgs with role assignment",
+          "status": "pending",
+          "dependencies": [1, 2],
+          "priority": "high",
+          "details": "Complexity: 2/10. Create lib/db/schema/org-users.ts. uuid PK, FKs to orgs and roles, user_id uuid referencing auth.users. Add indexes on user_id and org_id. Unique constraint on (org_id, user_id).",
+          "testStrategy": "TypeScript compiles. Indexes defined. Unique constraint on org_id + user_id.",
+          "subtasks": []
+        },
+        {
+          "id": 6,
+          "title": "Define Drizzle relations and export schema",
+          "description": "Set up Drizzle relations between tables and export all from index.ts",
+          "status": "pending",
+          "dependencies": [1, 2, 3, 4, 5],
+          "priority": "high",
+          "details": "Complexity: 2/10. Define relations in each schema file or a central relations.ts. Export all tables and relations from lib/db/schema/index.ts.",
+          "testStrategy": "All tables importable from '@/lib/db/schema'. No circular import errors.",
+          "subtasks": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Run Drizzle migrations",
+      "description": "Generate and push migrations to create tables in Supabase database",
+      "status": "pending",
+      "dependencies": [2],
+      "priority": "high",
+      "details": "Complexity: 2/10. Run `npx drizzle-kit generate` then `npx drizzle-kit push`. Add npm scripts: db:generate, db:push, db:studio.",
+      "testStrategy": "Query Supabase dashboard or psql to verify all 5 tables exist with correct columns and constraints.",
+      "subtasks": []
+    },
+    {
+      "id": 4,
+      "title": "Create and run seed script",
+      "description": "Seed roles, capabilities, and role_capabilities with default data",
+      "status": "pending",
+      "dependencies": [3],
+      "priority": "high",
+      "details": "Complexity: 3/10. Create lib/db/seed.ts with hardcoded UUIDs for admin/member roles and 5 capabilities. Use onConflictDoNothing for idempotency. Add npm script db:seed. Install tsx if needed for running.",
+      "testStrategy": "Run seed script twice - second run should complete without errors. Query DB to verify 2 roles, 5 capabilities, and admin role has all 5 capabilities linked.",
+      "subtasks": []
+    },
+    {
+      "id": 5,
+      "title": "Configure RLS policies in Supabase",
+      "description": "Enable RLS and create SELECT policies for orgs and org_users tables",
+      "status": "pending",
+      "dependencies": [3],
+      "priority": "high",
+      "details": "Complexity: 3/10. Use Supabase dashboard SQL editor to enable RLS on all tables and create policies per PRD. Service role bypasses RLS for server inserts. Create policies for orgs, org_users, roles, capabilities, role_capabilities.",
+      "testStrategy": "Test with anon key: should return empty results. Test with authenticated user: should only see own org data.",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Set up server utilities",
+      "description": "Create Supabase client and Drizzle db instance for server-side use",
+      "status": "pending",
+      "dependencies": [1],
+      "priority": "high",
+      "details": "Complexity: 4/10. Create server/utils/supabase.ts with createClient using service role key for admin operations. Create server/utils/db.ts exporting Drizzle instance using postgres driver. Ensure proper typing.",
+      "testStrategy": "Import in a test API route and verify both clients can connect without errors.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create server/utils/supabase.ts with admin client",
+          "description": "Set up Supabase admin client using service role key",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "high",
+          "details": "Complexity: 2/10. Use createClient from @supabase/supabase-js with SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY. Export typed client for auth admin operations.",
+          "testStrategy": "Client initializes without errors. Can call supabase.auth.admin methods.",
+          "subtasks": []
+        },
+        {
+          "id": 2,
+          "title": "Create server/utils/db.ts with Drizzle instance",
+          "description": "Set up Drizzle ORM instance for server-side database operations",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "high",
+          "details": "Complexity: 2/10. Use postgres driver with SUPABASE_DB_URL. Create and export drizzle instance with schema. Ensure connection pooling works with pgbouncer URL.",
+          "testStrategy": "Can import db and run simple query like db.select().from(orgs).",
+          "subtasks": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Create signup API endpoint",
+      "description": "Implement POST /api/auth/signup with full flow and error handling",
+      "status": "pending",
+      "dependencies": [4, 5, 6],
+      "priority": "high",
+      "details": "Complexity: 7/10. Create server/api/auth/signup.post.ts. Validate request with Zod. Create Supabase auth user with metadata. Create org and org_users in transaction. Implement rollback on failure. Return appropriate responses per PRD.",
+      "testStrategy": "Test happy path with curl/Postman. Test duplicate email returns 400. Test DB transaction rollback by temporarily breaking insert.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create Zod validation schema for request body",
+          "description": "Define and export Zod schema matching PRD validation rules",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "high",
+          "details": "Complexity: 1/10. Create SignupSchema with email (email, max 254), password (min 6), firstName/lastName (1-100, trimmed), company (1-255, trimmed).",
+          "testStrategy": "Schema rejects invalid inputs (short password, invalid email). Accepts valid inputs.",
+          "subtasks": []
+        },
+        {
+          "id": 2,
+          "title": "Implement Supabase auth user creation",
+          "description": "Create user in Supabase Auth with firstName/lastName metadata",
+          "status": "pending",
+          "dependencies": [1],
+          "priority": "high",
+          "details": "Complexity: 2/10. Use supabase.auth.admin.createUser() with email, password, user_metadata: { firstName, lastName }, email_confirm: true (skip verification).",
+          "testStrategy": "User appears in Supabase Auth dashboard with correct metadata.",
+          "subtasks": []
+        },
+        {
+          "id": 3,
+          "title": "Implement org + org_users DB transaction",
+          "description": "Create org and org_users rows in a single Drizzle transaction",
+          "status": "pending",
+          "dependencies": [2],
+          "priority": "high",
+          "details": "Complexity: 3/10. Use db.transaction() to insert org with company name, then insert org_users with user_id from auth, org_id from insert, and admin role_id.",
+          "testStrategy": "Both rows created atomically. If one fails, neither persists.",
+          "subtasks": []
+        },
+        {
+          "id": 4,
+          "title": "Implement rollback logic for failed DB inserts",
+          "description": "Delete auth user if DB transaction fails",
+          "status": "pending",
+          "dependencies": [3],
+          "priority": "high",
+          "details": "Complexity: 2/10. Wrap DB transaction in try/catch. On error, call supabase.auth.admin.deleteUser(userId). Log any deletion failures for manual cleanup.",
+          "testStrategy": "Simulate DB failure. Verify auth user is deleted. Verify failure logged if deletion fails.",
+          "subtasks": []
+        },
+        {
+          "id": 5,
+          "title": "Handle and map error responses",
+          "description": "Return appropriate error messages for different failure types",
+          "status": "pending",
+          "dependencies": [1, 2, 3, 4],
+          "priority": "high",
+          "details": "Complexity: 2/10. Map Supabase error codes to user-friendly messages. Handle: duplicate email (user_already_exists), weak password, validation errors, DB errors. Return {success, error, code} format.",
+          "testStrategy": "Each error type returns correct status code and message per PRD.",
+          "subtasks": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Update signup.vue to call API",
+      "description": "Connect frontend form to signup API with loading state and error handling",
+      "status": "pending",
+      "dependencies": [7],
+      "priority": "high",
+      "details": "Complexity: 4/10. Add isLoading ref. Use $fetch to call API. Show loading state on button. Use vue-sonner toast for errors. Redirect to /onboarding on success. Add ARIA labels to form for accessibility.",
+      "testStrategy": "Manual test: submit form, verify loading spinner, verify redirect on success, verify toast on duplicate email.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Add loading state and disable button during submit",
+          "description": "Implement isLoading ref and bind to button disabled/loading state",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "high",
+          "details": "Complexity: 1/10. Create isLoading ref. Set true on submit, false on response. Disable button and show spinner when loading.",
+          "testStrategy": "Button shows loading state during submission. Cannot double-submit.",
+          "subtasks": []
+        },
+        {
+          "id": 2,
+          "title": "Implement $fetch call to signup API",
+          "description": "Call POST /api/auth/signup with form data",
+          "status": "pending",
+          "dependencies": [1],
+          "priority": "high",
+          "details": "Complexity: 2/10. Use $fetch with method POST, body from form refs. Handle success (redirect) and error (extract message) responses.",
+          "testStrategy": "API receives correct payload. Response handled correctly.",
+          "subtasks": []
+        },
+        {
+          "id": 3,
+          "title": "Add vue-sonner toast for error display",
+          "description": "Show toast notifications for signup errors",
+          "status": "pending",
+          "dependencies": [2],
+          "priority": "high",
+          "details": "Complexity: 1/10. Import toast from vue-sonner. On error response, call toast.error() with message from API. Style as red error toast.",
+          "testStrategy": "Error responses show toast with correct message.",
+          "subtasks": []
+        },
+        {
+          "id": 4,
+          "title": "Add ARIA labels for accessibility",
+          "description": "Ensure form meets WCAG 2.1 AA accessibility requirements",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Complexity: 1/10. Add aria-describedby for error messages. Add aria-invalid to fields with errors. Ensure labels are properly associated with inputs.",
+          "testStrategy": "Run accessibility audit (axe or similar). No critical violations.",
+          "subtasks": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Create onboarding stub page",
+      "description": "Add placeholder /onboarding page for post-signup redirect",
+      "status": "pending",
+      "dependencies": [8],
+      "priority": "medium",
+      "details": "Complexity: 1/10. Create pages/onboarding.vue with simple heading like 'Welcome! Onboarding coming soon.' Just enough to verify redirect works after signup.",
+      "testStrategy": "Navigate to /onboarding directly and verify page renders. Complete signup flow and verify redirect lands on this page.",
+      "subtasks": []
+    }
+  ]
+}

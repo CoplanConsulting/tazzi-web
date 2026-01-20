@@ -1,0 +1,113 @@
+{
+  "feature": "Tour Creation Onboarding",
+  "prd": ".taskmaster/prds/tour-creation-onboarding.md",
+  "totalTasks": 8,
+  "estimatedComplexity": "medium",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Create common schema utilities file",
+      "description": "Define reusable schema columns, presets, and Zod helpers for consistent patterns",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Complexity: 4/10. Create lib/db/schema/base.ts with: (1) commonColumns object containing id (uuid, primaryKey, defaultRandom), createdAt (timestamp with timezone, defaultNow, notNull), updatedAt (timestamp with timezone, defaultNow, notNull, $onUpdate(() => new Date())), createdBy (uuid, nullable, for optional audit trail); (2) tablePresets.organizationScoped spreading commonColumns plus orgId (uuid, notNull, references orgs.id with onDelete cascade); (3) Zod helpers: requiredString (z.string().min(1)), dateString (z.string() for date inputs), dateRange schema with .refine(data => new Date(data.startDate) <= new Date(data.endDate), { message: 'End date must be on or after start date', path: ['endDate'] }), uuidString (z.string().uuid()). Export all for use in other schema files. Use withTimezone: true on timestamps to match Supabase best practices.",
+      "testStrategy": "TypeScript compiles without errors. Exports can be imported in other files. Spreading tablePresets.organizationScoped in a test table definition works correctly.",
+      "subtasks": [
+        { "id": 1, "title": "Create base.ts file with commonColumns", "status": "pending" },
+        { "id": 2, "title": "Add tablePresets.organizationScoped", "status": "pending" },
+        { "id": 3, "title": "Add Zod helper schemas", "status": "pending" },
+        { "id": 4, "title": "Export and verify imports work", "status": "pending" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Create tours schema with Drizzle",
+      "description": "Define tour status enum and tours table using base utilities",
+      "status": "pending",
+      "dependencies": [1],
+      "priority": "high",
+      "details": "Complexity: 3/10. Create lib/db/schema/tours.ts. Define tourStatusEnum with pgEnum('tour_status', ['Upcoming', 'Active', 'Completed', 'Cancelled']). Define tours table using tablePresets.organizationScoped spread, plus: name (text, notNull), artist (text, nullable), startDate (timestamp('start_date', { withTimezone: true }).notNull()), endDate (timestamp('end_date', { withTimezone: true }).notNull()), tourManager (text('tour_manager'), nullable), status (tourStatusEnum, default 'Upcoming', notNull), createdBy (commonColumns.createdBy for optional audit). Note: Use snake_case for DB column names (org_id, start_date, end_date, tour_manager, created_at, updated_at, created_by). Export Tour and NewTour types. Add exports to schema/index.ts.",
+      "testStrategy": "TypeScript compiles without errors. Schema exports Tour and NewTour types. Default status is 'Upcoming'. Timestamps use withTimezone: true and $onUpdate pattern from base.ts. startDate and endDate are notNull timestamps.",
+      "subtasks": []
+    },
+    {
+      "id": 3,
+      "title": "Add tours relations to schema",
+      "description": "Define Drizzle relations between tours and orgs tables",
+      "status": "pending",
+      "dependencies": [2],
+      "priority": "high",
+      "details": "Complexity: 2/10. Add toursRelations to lib/db/schema/relations.ts following existing pattern. Tours belongsTo orgs (many-to-one via orgId). Update orgsRelations to include hasMany tours. Export toursRelations from schema/index.ts.",
+      "testStrategy": "TypeScript compiles. Relations exported from schema/index.ts. Can query tours with org included via Drizzle relational queries.",
+      "subtasks": []
+    },
+    {
+      "id": 4,
+      "title": "Generate and apply database migration",
+      "description": "Create migration file for tours table and apply to database",
+      "status": "pending",
+      "dependencies": [2, 3],
+      "priority": "high",
+      "details": "Complexity: 2/10. Run drizzle-kit generate to create migration for tour_status enum and tours table. Review generated SQL for correctness (foreign key constraint, enum values, default status 'Upcoming', timestamp columns with timezone, startDate/endDate as NOT NULL). Apply migration with drizzle-kit push or migrate command.",
+      "testStrategy": "Migration runs without errors. Tours table visible in Supabase dashboard with correct columns, types, constraints, and default values. tour_status enum exists with 4 values. startDate and endDate columns are NOT NULL timestamps with timezone.",
+      "subtasks": []
+    },
+    {
+      "id": 5,
+      "title": "Create Zod validation schema for tour form",
+      "description": "Define validation rules for tour creation form using base Zod helpers",
+      "status": "pending",
+      "dependencies": [1],
+      "priority": "high",
+      "details": "Complexity: 3/10. Create lib/validations/tour.ts. Import Zod helpers from base.ts. Define createTourSchema with: name (requiredString, 'Tour name is required'), startDate (requiredString, valid date format), endDate (requiredString, valid date format). Add refine: .refine(data => new Date(data.startDate) <= new Date(data.endDate), { message: 'End date must be on or after start date', path: ['endDate'] }). This ensures error appears on endDate field specifically. Export toTypedSchema wrapper for vee-validate integration. Day count calculation helper: inclusive range = Math.ceil((endDate - startDate) / 86400000) + 1.",
+      "testStrategy": "Schema rejects: empty name, missing dates, end date before start date (error on endDate path). Schema accepts valid inputs. Validation error messages are user-friendly and appear on correct fields.",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Create POST /api/tours endpoint",
+      "description": "API endpoint to create a new tour record for the authenticated user's organization",
+      "status": "pending",
+      "dependencies": [2, 4, 5],
+      "priority": "high",
+      "details": "Complexity: 5/10. Create server/api/tours/index.post.ts. IMPORTANT: orgId MUST come from the authenticated user's organization via Supabase session/context (do NOT accept orgId from request body — this prevents users creating tours in other orgs). Get user from event.context or serverSupabaseUser. Look up user's orgId from orgUsers table. Validate request body (name, startDate, endDate) with Zod schema. Insert tour with Drizzle: spread validated fields, set orgId from user context, optionally set createdBy to user.id, status defaults to 'Upcoming'. Return 201 with created tour object (include id, name, startDate, endDate for success page). Handle errors: 400 for validation, 401 for unauthenticated, 500 for server errors.",
+      "testStrategy": "POST with valid data + auth returns 201 and created tour with id. Invalid data returns 400 with validation errors. Missing/invalid auth returns 401. Tour record exists in database with correct orgId from session (not from request). createdBy matches authenticated user id.",
+      "subtasks": [
+        { "id": 1, "title": "Create API route file structure", "status": "pending" },
+        { "id": 2, "title": "Get authenticated user and their orgId from session/orgUsers", "status": "pending" },
+        { "id": 3, "title": "Add request body validation with Zod", "status": "pending" },
+        { "id": 4, "title": "Insert tour record with Drizzle (orgId from context, createdBy from user)", "status": "pending" },
+        { "id": 5, "title": "Return response with proper status codes and error handling", "status": "pending" }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Update onboarding pages for Tazzi branding",
+      "description": "Update branding and fix routes on all three onboarding pages",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "details": "Complexity: 2/10. Update index.vue: Change 'Welcome to Tour Manager Pro!' to 'Welcome to Tazzi!', update skip route from '/dashboard' to '/'. Update success.vue: Keep button text as 'Go to Dashboard' but route to '/', remove or disable calendar/events links (comment with TODO for future implementation). Verify all pages use consistent Tazzi branding.",
+      "testStrategy": "All pages display 'Tazzi' branding. Skip button on step 1 navigates to '/'. Dashboard button on success page shows 'Go to Dashboard' text but navigates to '/'. No references to 'Tour Manager Pro' remain.",
+      "subtasks": []
+    },
+    {
+      "id": 8,
+      "title": "Connect create-tour form to API",
+      "description": "Update create-tour page to use validation schema, submit to API, and display results on success page",
+      "status": "pending",
+      "dependencies": [5, 6, 7],
+      "priority": "high",
+      "details": "Complexity: 4/10. Update create-tour.vue: Import createTourSchema from lib/validations/tour (remove reference to ~/schemas/tour). Replace simulated API delay with actual POST to /api/tours using $fetch. Handle loading state during submission. On success: calculate day count (inclusive: Math.ceil((new Date(endDate) - new Date(startDate)) / 86400000) + 1), navigate to /onboarding/success passing tourName and days via query params. On error: display toast notification with error message using vue-sonner, stay on form. Update success.vue to correctly read and display tour name and day count from query params (already implemented, just verify).",
+      "testStrategy": "Form validates inputs before submit. Valid submission creates tour in database via API. Success navigates to /onboarding/success with tourName and days query params. Success page displays tour name and '[X] days generated' correctly. API errors display toast notification and form remains editable. End date validation error appears on endDate field specifically.",
+      "subtasks": [
+        { "id": 1, "title": "Update validation schema import path", "status": "pending" },
+        { "id": 2, "title": "Replace mock API with real $fetch POST to /api/tours", "status": "pending" },
+        { "id": 3, "title": "Add error handling with vue-sonner toast", "status": "pending" },
+        { "id": 4, "title": "Calculate day count (inclusive) and pass to success page", "status": "pending" },
+        { "id": 5, "title": "Verify success page displays tour name and day count correctly", "status": "pending" }
+      ]
+    }
+  ]
+}

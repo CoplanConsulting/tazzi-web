@@ -1,7 +1,29 @@
 {
   "permissions": {
     "allow": [
-      "Skill(frontend-design)"
+      "Skill(frontend-design)",
+      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npm install:*)",
+      "Bash(cd:*)",
+      "Bash(npm run lint -- lib/db/schema/)",
+      "Bash(cd /Users/24povsteve/Documents/01 Clients/01 Current/01 Active Projects/Tazzi/code/tazzi-web && npm install:*)",
+      "Bash(npm run db:push)",
+      "Bash(npm run db:seed)",
+      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npx tsx:*)",
+      "Bash(npm run lint -- server/utils/ nuxt.config.ts)",
+      "Bash(npm run lint:fix -- server/utils/ nuxt.config.ts)",
+      "Bash(npm run lint -- nuxt.config.ts server/utils/)",
+      "Bash(npm run lint -- server/api/auth/signup.post.ts)",
+      "Bash(npm run lint -- pages/auth/signup.vue app.vue)",
+      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npm run dev:*)",
+      "Bash(npm run dev)",
+      "WebFetch(domain:vee-validate.logaretm.com)",
+      "Bash(npm install @vee-validate/nuxt)",
+      "Bash(npx nuxi prepare)",
+      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web:*)",
+      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npx drizzle-kit push:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:fix)",
+      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npx eslint:*)"
     ]
   }
 }
