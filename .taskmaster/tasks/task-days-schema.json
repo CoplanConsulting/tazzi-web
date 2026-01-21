@@ -1,0 +1,148 @@
+{
+  "feature": "Tour Days Schema",
+  "slug": "days-schema",
+  "totalTasks": 6,
+  "estimatedComplexity": "medium",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Add drizzle-zod dependency",
+      "description": "Install drizzle-zod package for auto-generating Zod schemas from Drizzle tables.",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Complexity: 1/10. Run `npm install drizzle-zod`. This is a peer dependency of drizzle-orm that enables createInsertSchema/createSelectSchema functions.",
+      "testStrategy": "Verify package appears in package.json dependencies. Run `npm run lint` to ensure no issues.",
+      "subtasks": []
+    },
+    {
+      "id": 2,
+      "title": "Create days schema file with enums and table",
+      "description": "Create lib/db/schema/days.ts with dayTypeEnum, dayStatusEnum, and days table definition.",
+      "status": "pending",
+      "dependencies": [1],
+      "priority": "high",
+      "details": "Complexity: 5/10. Create new file following tours.ts pattern. Use tableColumns.audited() for base columns. Define enums before table. Add composite index on (tourId, date). Timezone as text() not enum.",
+      "testStrategy": "File exists at lib/db/schema/days.ts. TypeScript compiles without errors. Enums have correct values. Table has all specified columns with correct types and defaults.",
+      "subtasks": [
+        {
+          "id": "2.1",
+          "title": "Define dayTypeEnum",
+          "status": "pending"
+        },
+        {
+          "id": "2.2",
+          "title": "Define dayStatusEnum",
+          "status": "pending"
+        },
+        {
+          "id": "2.3",
+          "title": "Define days table with all columns",
+          "status": "pending"
+        },
+        {
+          "id": "2.4",
+          "title": "Add composite index on (tourId, date)",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Add Zod validation schemas and type exports",
+      "description": "Create Zod schemas using drizzle-zod with IANA timezone validation, and export Day/NewDay types.",
+      "status": "pending",
+      "dependencies": [1, 2],
+      "priority": "high",
+      "details": "Complexity: 3/10. Use createInsertSchema/createSelectSchema from drizzle-zod. Override timezone field with regex validation for IANA format. Export inferred types using $inferSelect and $inferInsert.",
+      "testStrategy": "insertDaySchema and selectDaySchema are exported. Timezone validation rejects invalid formats. Types Day and NewDay are exported and match table structure.",
+      "subtasks": [
+        {
+          "id": "3.1",
+          "title": "Create insertDaySchema with IANA timezone validation",
+          "status": "pending"
+        },
+        {
+          "id": "3.2",
+          "title": "Create selectDaySchema",
+          "status": "pending"
+        },
+        {
+          "id": "3.3",
+          "title": "Export Day and NewDay types",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Update relations.ts with days relations",
+      "description": "Add daysRelations connecting days to tours, with placeholders for future events and travelItineraries.",
+      "status": "pending",
+      "dependencies": [2],
+      "priority": "high",
+      "details": "Complexity: 3/10. Import days from ./days. Add daysRelations with one(tours) relation. Add comment placeholders for future many(events) and many(travelItineraries). Update toursRelations to include many(days).",
+      "testStrategy": "daysRelations exported from relations.ts. Tour relation properly configured. toursRelations includes days. No TypeScript errors.",
+      "subtasks": [
+        {
+          "id": "4.1",
+          "title": "Add daysRelations with tour relation",
+          "status": "pending"
+        },
+        {
+          "id": "4.2",
+          "title": "Add placeholder comments for future relations",
+          "status": "pending"
+        },
+        {
+          "id": "4.3",
+          "title": "Update toursRelations to include many(days)",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Update schema index exports",
+      "description": "Export days table, enums, schemas, relations, and types from lib/db/schema/index.ts.",
+      "status": "pending",
+      "dependencies": [2, 3, 4],
+      "priority": "medium",
+      "details": "Complexity: 2/10. Add exports for: days table, dayTypeEnum, dayStatusEnum, insertDaySchema, selectDaySchema, daysRelations, Day type, NewDay type. Follow existing export pattern in index.ts.",
+      "testStrategy": "All new exports are accessible via import from 'lib/db/schema'. No duplicate exports. Alphabetical ordering maintained where applicable.",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Generate and verify migration",
+      "description": "Generate Drizzle migration and verify it applies cleanly to the database.",
+      "status": "pending",
+      "dependencies": [2, 3, 4, 5],
+      "priority": "high",
+      "details": "Complexity: 2/10. Run `npx drizzle-kit generate` to create migration. Verify migration SQL creates enums before table. Run `npx drizzle-kit push` or apply migration. Run `npm run lint` for final verification.",
+      "testStrategy": "Migration file created in lib/db/migrations/. SQL shows CREATE TYPE for enums before CREATE TABLE. Migration applies without errors. npm run lint passes.",
+      "subtasks": [
+        {
+          "id": "6.1",
+          "title": "Generate migration with drizzle-kit",
+          "status": "pending"
+        },
+        {
+          "id": "6.2",
+          "title": "Verify enum creation order in SQL",
+          "status": "pending"
+        },
+        {
+          "id": "6.3",
+          "title": "Apply migration to database",
+          "status": "pending"
+        },
+        {
+          "id": "6.4",
+          "title": "Run lint and verify no errors",
+          "status": "pending"
+        }
+      ]
+    }
+  ]
+}

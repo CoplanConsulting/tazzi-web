@@ -23,7 +23,11 @@
       "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npx drizzle-kit push:*)",
       "Bash(npm run lint)",
       "Bash(npm run lint:fix)",
-      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npx eslint:*)"
+      "Bash(cd /Users/24povsteve/Documents/01\\\\ Clients/01\\\\ Current/01\\\\ Active\\\\ Projects/Tazzi/code/tazzi-web && npx eslint:*)",
+      "Bash(npx tsx -e \"\nimport postgres from ''postgres'';\nimport env from ''./lib/env'';\n\nconst sql = postgres\\(env.SUPABASE_DB_URL, { prepare: false }\\);\nconst result = await sql\\\\`SELECT current_database\\(\\), current_user, version\\(\\)\\\\`;\nconsole.log\\(''Connected:'', result[0]\\);\nawait sql.end\\(\\);\n\")",
+      "WebSearch",
+      "WebFetch(domain:orm.drizzle.team)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

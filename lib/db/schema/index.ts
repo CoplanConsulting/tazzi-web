@@ -18,6 +18,9 @@ export {
 export { capabilities } from "./capabilities";
 export type { Capability, NewCapability } from "./capabilities";
 
+export { days, dayStatusEnum, dayTypeEnum, insertDaySchema, selectDaySchema } from "./days";
+export type { Day, NewDay } from "./days";
+
 export { orgUsers } from "./org-users";
 export type { NewOrgUser, OrgUser } from "./org-users";
 
@@ -27,6 +30,7 @@ export type { NewOrg, Org } from "./orgs";
 // Relations
 export {
   capabilitiesRelations,
+  daysRelations,
   orgsRelations,
   orgUsersRelations,
   roleCapabilitiesRelations,

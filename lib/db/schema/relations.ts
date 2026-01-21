@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 
 import { capabilities } from "./capabilities";
+import { days } from "./days";
 import { orgUsers } from "./org-users";
 import { orgs } from "./orgs";
 import { roleCapabilities } from "./role-capabilities";
@@ -49,9 +50,21 @@ export const orgUsersRelations = relations(orgUsers, ({ one }) => ({
 }));
 
 // Tour relations
-export const toursRelations = relations(tours, ({ one }) => ({
+export const toursRelations = relations(tours, ({ one, many }) => ({
   org: one(orgs, {
     fields: [tours.orgId],
     references: [orgs.id],
   }),
+  days: many(days),
+}));
+
+// Day relations
+export const daysRelations = relations(days, ({ one }) => ({
+  tour: one(tours, {
+    fields: [days.tourId],
+    references: [tours.id],
+  }),
+  // Future relations (uncomment when tables exist):
+  // events: many(events),
+  // travelItineraries: many(travelItineraries),
 }));
